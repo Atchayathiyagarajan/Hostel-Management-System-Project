@@ -1,0 +1,94 @@
+import java.util.*;
+
+class Student {
+    String name;
+    int id;
+    String roomNumber;
+    double payment;
+
+    public Student(String name, int id, String roomNumber, double payment) {
+        this.name = name;
+        this.id = id;
+        this.roomNumber = roomNumber;
+        this.payment = payment;
+    }
+
+    public void displayStudent() {
+        System.out.println("Student Name: " + name);
+        System.out.println("Student ID: " + id);
+        System.out.println("Room Number: " + roomNumber);
+        System.out.println("Payment Due: " + payment);
+    }
+}
+
+class Hostel {
+    List<Student> students = new ArrayList<>();
+
+    public void addStudent(String name, int id, String roomNumber, double payment) {
+        students.add(new Student(name, id, roomNumber, payment));
+        System.out.println("Student " + name + " added successfully!");
+    }
+
+    public void makePayment(int id, double amount) {
+        for (Student s : students) {
+            if (s.id == id) {
+                s.payment -= amount;
+                System.out.println("Payment successful! Remaining due: " + s.payment);
+                return;
+            }
+        }
+        System.out.println("Student ID not found!");
+    }
+
+    public void displayAllStudents() {
+        for (Student s : students) {
+            s.displayStudent();
+            System.out.println("----------------------");
+        }
+    }
+}
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Hostel hostel = new Hostel();
+
+        while (true) {
+            System.out.println("\nHostel Management System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Make Payment");
+            System.out.println("3. Display All Students");
+            System.out.println("4. Exit");
+            System.out.print("Enter choice: ");
+            int choice = scanner.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Enter Name: ");
+                String name = scanner.next();
+                System.out.print("Enter ID: ");
+                int id = scanner.nextInt();
+                System.out.print("Enter Room Number: ");
+                String roomNumber = scanner.next();
+                System.out.print("Enter Payment Due: ");
+                double payment = scanner.nextDouble();
+                hostel.addStudent(name, id, roomNumber, payment);
+            } else if (choice == 2) {
+                System.out.print("Enter Student ID: ");
+                int id = scanner.nextInt();
+                System.out.print("Enter Payment Amount: ");
+                double amount = scanner.nextDouble();
+                hostel.makePayment(id, amount);
+            } else if (choice == 3) {
+                hostel.displayAllStudents();
+            } else if (choice == 4) {
+                System.out.println("Exiting...");
+                break;
+            } else {
+                System.out.println("Invalid choice! Try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
+
